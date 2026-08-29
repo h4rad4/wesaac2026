@@ -1,0 +1,128 @@
+{
+  "first": 16,
+  "last": 20,
+  "discourse": "Alright, let's talk about how pictures can be used to deceive us. Here's a slide titled \"Lying with Pictures,\" and I've got a bar chart here called \"6.0001 Mean Grade By Gender.\" The blue bar is the mean grade of the male students, and the pink bar is the mean grade of the female students. Now, look at this chart. What does it appear to tell you? It looks like the women are doing dramatically better than the men — the pink bar looks roughly three times the height of the blue bar. That would be a stunning difference, wouldn't it?\n\nBut look at the y-axis. It's labeled \"Mean Grade,\" and it runs from 3.90 at the bottom to 4.05 at the top. The axis has been truncated — it doesn't start at zero. The men's bar sits at about 3.945, and the women's bar at about 4.05. So the actual difference is on the order of a tenth of a point, on a scale that goes up to 5. By chopping off the bottom of the axis, I've taken a tiny difference and blown it up into what looks like an enormous gap. The bars are lying to you, even though the numbers printed on the axis are technically correct.\n\nHere's the same data again — same title, \"6.0001 Mean Grade By Gender,\" same blue and pink bars — but this time the y-axis starts at 0 and goes to 5. And now what do you see? Two bars of almost identical height. The male mean is just under 4, the female mean just over 4, and the difference is barely visible. This is what the data actually looks like. This is telling the truth with pictures. And the moral, which I want you to carry with you every time you look at a bar chart: look carefully at the axis labels and scales. The first question you should ask about any bar chart is: where does the y-axis start? If it doesn't start at zero, be suspicious.\n\nNow, this trick doesn't just happen in homework examples — it happens on television. Here's a screenshot from Fox News, headlined \"Welfare vs. Full Time Jobs,\" with the source listed as the Census Bureau, 2011. The graphic reports 108.6 million people on welfare, and 101.7 million people with a full-time job. Now look at the bars. The welfare bar is drawn many, many times taller than the full-time-job bar. But 108.6 is only about seven percent larger than 101.7. The bars are wildly out of proportion to the numbers they represent.\n\nAnd there's a second, subtler problem with this graphic. Are these two quantities even comparable? What does \"people on welfare\" mean? Does it count anyone receiving any kind of government benefit? And is that the same kind of thing as \"people with a full-time job\"? These may not be apples and apples. So the moral here: ask whether the things being compared are actually comparable. Even if the bars were drawn to scale, the comparison itself might be misleading.\n\nSo far we've been lying with perfectly good data. But what happens when the data itself is bad? That brings us to the old computer science maxim: garbage in, garbage out. And on this theme, I love this quote from Charles Babbage — the man who designed the first mechanical computers, back in the 1800s. He wrote: \"On two occasions I have been asked [by members of Parliament], 'Pray, Mr. Babbage, if you put into the machine wrong figures, will the right answers come out?' I am not able rightly to apprehend the kind of confusion of ideas that could provoke such a question.\" Babbage was flabbergasted that anyone could think wrong inputs might yield correct outputs. And yet people make exactly this mistake all the time — they take bad data, run it through a sophisticated analysis, and then trust the results because the analysis was fancy. The sophistication of the analysis cannot rescue bad data.\n\nWhich brings us to a famous historical example: Calhoun's response to errors in data. John C. Calhoun was confronted with the claim that the census data he was relying on was riddled with errors, and his defense was this: \"there were so many errors they balanced one another, and led to the same conclusion as if they were all correct.\"\n\nNow, is that ever a legitimate argument? Well, it could be — under one specific condition. If the measurement errors are unbiased and independent of each other, then they will be almost identically distributed on either side of the mean, and the positive and negative errors really might cancel out. So was that the case here? No. Later analysis showed that the errors were not random but systematic. And that matters enormously, because this census data was being used to draw conclusions about Black people and insanity — conclusions that were used to defend slavery. As James Freeman Clarke put it, \"it was the census that was insane and not the colored people.\" The data was wrong, the errors pointed in one direction rather than canceling, and the analysis built on that data propped up a monstrous conclusion.\n\nSo the moral of this whole sequence: analysis of bad data can lead to dangerous conclusions. Check your axes, check your comparisons, and above all, ask where the data came from — because no amount of careful computation will save you if you started with garbage.",
+  "wikipedia_data": "## Misleading graph\nIn statistics , a misleading graph , also known as a distorted graph , is a graph that misrepresents data , constituting a misuse of statistics and with the result that an incorrect conclusion may be derived from it. Graphs may be misleading by being excessively complex or poorly constructed. Even when constructed to display the characteristics of their data accurately, graphs can be subject to different interpretations, or unintended kinds of data can seemingly and ultimately erroneously be derived.  Misleading graphs may be created intentionally to hinder the proper interpretation of data or accidentally due to unfamiliarity with graphing software , misinterpretation of data, or because data cannot be accurately conveyed. Misleading graphs are often used in false advertising . One of the first authors to write about misleading graphs was Darrell Huff , publisher of the 1954 book How to Lie with Statistics . Data journalist John Burn-Murdoch has suggested that people are more likely to express scepticism towards data communicated within written text than data of similar quality presented as a graphic, arguing that this is partly the result of the teaching of critical thinking focusing on engaging with written works rather than diagrams, resulting in visual literacy being neglected. He has also highlighted the concentration of data scientists in employment by technology companies, which he believes can result in the hampering of the evaluation of their visualisations due to the proprietary and closed nature of much of the data they work with.  The field of data visualization describes ways to present information that avoids creating misleading graphs. [A misleading graph] is vastly more effective, however, because it contains no adjectives or adverbs to spoil the illusion of objectivity, there's nothing anyone can pin on you. — How to Lie with Statistics (1954)  There are numerous ways in which a misleading graph may be constructed.  The use of graphs where they are not needed can lead to unnecessary confusion/interpretation.  Generally, the more explanation a graph needs, the less the graph itself is needed.  Graphs do not always convey information better than tables.  The use of biased or loaded words in the graph's title, axis labels, or caption may inappropriately prime the reader.   Similarly, attempting to draw trend lines through uncorrelated data may mislead the reader into believing a trend exists where there is none. This can be both the result of intentionally attempting to mislead the reader or due to the phenomenon of illusory correlation . Comparing data on barcharts is generally much easier. In the image below, it is very hard to tell where the blue sector is bigger than the green sector on the piecharts. A perspective (3D) pie chart is used to give the chart a 3D look. Often used for aesthetic reasons, the third dimension does not improve the reading of the data; on the contrary, these plots are difficult to interpret because of the distorted effect of perspective associated with the third dimension. The use of superfluous dimensions not used to display the data of interest is discouraged for charts in general, not only for pie charts.  In a 3D pie chart, the slices that are closer to the reader appear to be larger than those in the back due to the angle at which they're presented.  This effect makes readers less performant in judging the relative magnitude of each slice when using 3D than 2D  Item C appears to be at least as large as Item A in the misleading pie chart, whereas in actuality, it is less than half as large. Item D looks a lot larger than item B, but they are the same size. Edward Tufte , a prominent American statistician, noted why tables may be preferred to pie charts in The Visual Display of Quantitative Information :  Tables are preferable to graphics for many small data sets. A table is nearly always better than a dumb pie chart; the only thing worse than a pie chart is several of them, for then the viewer is asked to compare quantities located in spatial disarray both within and between pies – Given their low data-density and failure to order numbers along a visual dimension, pie charts should never be used. Using pictograms in bar graphs should not be scaled uniformly, as this creates a perceptually misleading comparison.  The area of the pictogram is interpreted instead of only its height or width.  This causes the scaling to make the difference appear to be squared.  In the improperly scaled pictogram bar graph, the image for B is actually 9 times as large as A. The perceived size increases when scaling. The effect of improper scaling of pictograms is further exemplified when the pictogram has 3 dimensions, in which case the effect is cubed.  The graph of house sales (left) is misleading. It appears that home sales have grown eightfold in 2001 over the previous year, whereas they have actually grown twofold. Besides, the number of sales is not specified. An improperly scaled pictogram may also suggest that the item itself has changed in size.  Assuming the pictures represent equivalent quantities, the misleading graph shows that there are more bananas because the bananas occupy the most area and are furthest to the right. Logarithmic (or log) scales are a valid means of representing data. But when used without being clearly labeled as log scales or displayed to a reader unfamiliar with them, they can be misleading. Log scales put the data values in terms of a chosen number (often 10) to a particular power. For example, log scales may give a height of 1 for a value of 10 in the data and a height of 6 for a value of 1,000,000 (10 6 ) in the data. Log scales and variants are commonly used, for instance, for the volcanic explosivity index, the Richter scale for earthquakes, the magnitude of stars, and the pH of acidic and alkaline solutions. Even in these cases, the log scale can make the data less apparent to the eye. Often the reason for the use of lo\n\n## John C. Calhoun\nJohn Caldwell Calhoun ( / k æ l ˈ h uː n / ;  March 18, 1782 – March 31, 1850) was an American statesman and political theorist who served as the seventh vice president of the United States from 1825 to 1832. Calhoun began his political career as a nationalist , modernizer and proponent of a strong federal government and protective tariffs . In the late 1820s, his views shifted, and he became a leading proponent of states' rights , limited government , nullification , and opposition to high tariffs , and distinguished himself as an outspoken defender of slavery in the United States . Calhoun saw Northern acceptance of those policies as a condition of the South remaining in the Union. His beliefs heavily influenced the South's secession from the Union in 1860 and 1861. Calhoun was the first of two vice presidents to resign from the position, the second being Spiro Agnew , who resigned in 1973. Born in South Carolina , Calhoun began his political career with election to the House of Representatives in 1810. As a prominent leader of the war hawk faction, he strongly supported the War of 1812 . Calhoun served as Secretary of War under President James Monroe and, in that position, reorganized and modernized the War Department . He was a candidate for the presidency in the 1824 election . After failing to gain support, Calhoun agreed to be a candidate for vice president. The Electoral College elected him vice president by an overwhelming majority. He served under John Quincy Adams and continued under Andrew Jackson , who defeated Adams in the election of 1828 , making Calhoun the most recent U.S. vice president to serve under two different presidents. Calhoun had a difficult relationship with Jackson, primarily because of the Nullification Crisis and the Petticoat affair . In contrast with his previous nationalist sentiments, Calhoun vigorously supported South Carolina's right to nullify federal tariff legislation that he believed unfairly favored the North, which put him into conflict with Unionists such as Jackson. In 1832, with only a few months remaining in his second term, Calhoun resigned as vice president and was elected to the Senate . He sought the Democratic Party nomination for the presidency in 1844 but lost to surprise nominee James K. Polk , who won the general election. Calhoun served as Secretary of State under President John Tyler from 1844 to 1845, and in that role supported the annexation of Texas as a means to extend the Slave Power and helped to settle the Oregon boundary dispute with Britain. Calhoun returned to the Senate, where he opposed the Mexican–American War , the Wilmot Proviso and the Compromise of 1850 before he died of tuberculosis in 1850. He often served as a virtual independent who variously aligned as needed with Democrats and Whigs . Later in life, Calhoun became known as the \"cast-iron man\" for his rigid defense of white Southern beliefs and practices.   His concept of republicanism emphasized proslavery thought and minority states' rights as embodied by the South. He owned dozens of slaves in Fort Hill, South Carolina , and asserted that slavery, rather than being a \" necessary evil \", was a \" positive good \" that benefited both slaves and enslavers.  To protect minority rights against majority rule, he called for a concurrent majority by which the minority could block some proposals that it felt infringed on their liberties. To that end, Calhoun supported states' rights, and nullification, through which states could declare null and void federal laws that they viewed as unconstitutional. He was one of the \" Great Triumvirate \" or the \"Immortal Trio\" of congressional leaders, along with his colleagues Daniel Webster and Henry Clay . John Caldwell Calhoun was born in Abbeville District, South Carolina on March 18, 1782. He was the fourth child of Irish-born Patrick Calhoun and his wife Martha Caldwell. Patrick's father, also named Patrick, joined the waves of Scotch-Irish emigration from County Donegal to southwestern Pennsylvania . After the death of the elder Patrick in 1741, the family moved to Virginia . Following the British defeat at the Battle of the Monongahela in 1755, the family, fearing Indian attacks, moved to South Carolina in 1756.   Patrick, a prominent member of the tight-knit Scotch-Irish community on the frontier who worked as surveyor and farmer, was elected to the South Carolina Legislature in 1763 and acquired ownership over slave plantations . As a Presbyterian , he stood opposed to the established Anglican planter class based in Charleston . Patrick remained neutral in the American Revolution and opposed ratification of the U.S. Constitution on grounds of states' rights and personal liberties. Calhoun would eventually adopt his father's beliefs on states' rights.   Young Calhoun showed scholastic talent, and although schools were scarce on the Carolina frontier, he was enrolled briefly in an academy taught by his brother-in-law Moses Waddel . It stressed the Latin and Greek classics. He continued his studies privately. When his father died, his brothers were away starting business careers, and so the 14-year-old Calhoun took over management of the family farm and five other farms. For four years he simultaneously kept up his reading and his hunting and fishing. The family decided he should continue his education, and so he resumed studies at Waddel's academy after it reopened.  With financing from his brothers, he went to Yale College in Connecticut in 1802. For the first time in his life, Calhoun encountered serious, advanced, and well-organized intellectual dialogue that could shape his mind. Yale was dominated by President Timothy Dwight , a Federalist who became his mentor. Dwight's brilliance entranced (and sometimes repelled) Calhoun. Biographer John Niven says: Calhoun admired Dwight's extemporaneous sermons, his seemingly encyclopedic knowledge, and his awesome mastery of the classics, of the tenets of Calvinism , and of met",
+  "figures": [
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Misusestatistics_0001_%28cropped%29.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Example of a truncated (left) vs full-scale graph (right), using the same data",
+      "article": "Misleading graph",
+      "article_url": "https://en.wikipedia.org/wiki/Misleading_graph"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Piecharts.svg/1280px-Piecharts.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Three sets of percentages, plotted as both piecharts and barcharts. Comparing the data on barcharts is generally much easier.",
+      "article": "Misleading graph",
+      "article_url": "https://en.wikipedia.org/wiki/Misleading_graph"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Graph_showing_improper_3D_pictogram_scaling.svg/330px-Graph_showing_improper_3D_pictogram_scaling.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "",
+      "article": "Misleading graph",
+      "article_url": "https://en.wikipedia.org/wiki/Misleading_graph"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/An_example_of_a_misleading_graph.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "A graph that uses a distinct Y-axis for one of its many lines",
+      "article": "Misleading graph",
+      "article_url": "https://en.wikipedia.org/wiki/Misleading_graph"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Example_truncated_bar_graph.svg/500px-Example_truncated_bar_graph.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "",
+      "article": "Misleading graph",
+      "article_url": "https://en.wikipedia.org/wiki/Misleading_graph"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Bar_graph_missing_zero1.svg/500px-Bar_graph_missing_zero1.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "",
+      "article": "Misleading graph",
+      "article_url": "https://en.wikipedia.org/wiki/Misleading_graph"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Floride_Calhoun_nee_Colhoun.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Calhoun's wife, Floride Calhoun",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/JCCalhoun-1822.jpg/500px-JCCalhoun-1822.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Charles Bird King's 1822 portrait of Calhoun at the age of 40",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Fort_Hill_%28Clemson%2C_SC%29_Historic_Marker.JPG/500px-Fort_Hill_%28Clemson%2C_SC%29_Historic_Marker.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "State historic marker at Fort Hill, Calhoun's home from 1825 until his death in 1850",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/John_C._Calhoun.jpeg/500px-John_C._Calhoun.jpeg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "A portrait of Calhoun from 1834 by Rembrandt Peale",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/John_C._Calhoun%2C_U.S._Secretary_of_State.jpg/500px-John_C._Calhoun%2C_U.S._Secretary_of_State.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Calhoun, during his tenure as Secretary of State (April 1844 – March 1845)",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/John_Caldwell_Calhoun_ca._1843.jpg/500px-John_Caldwell_Calhoun_ca._1843.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Daguerreotype of Calhoun, c. 1843",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/John_C_Calhoun_by_Mathew_Brady%2C_1849_%28restored%29.jpg/500px-John_C_Calhoun_by_Mathew_Brady%2C_1849_%28restored%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Calhoun photographed by Mathew Brady in 1849, shortly before his death",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Closeup_of_John_C._Calhoun_grave_IMG_4649.JPG/500px-Closeup_of_John_C._Calhoun_grave_IMG_4649.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Calhoun's grave at St. Philip's Church yard in Charleston",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/G.P.A._Healy%27s_portrait_of_John_C._Calhoun%2C_Charleston_City_Hall_IMG_4589.JPG/500px-G.P.A._Healy%27s_portrait_of_John_C._Calhoun%2C_Charleston_City_Hall_IMG_4589.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "George Peter Alexander Healy's 1851 painting of Calhoun at City Hall in Charleston, South Carolina",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Fort_Hill.jpg/500px-Fort_Hill.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Calhoun's home, Fort Hill, on the grounds that became part of Clemson University, in Clemson, South Carolina",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/JohnCCalhoun.jpeg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Undated photograph of Calhoun",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/5/58/Jcctypo01.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "John C. Calhoun postage stamp, CSA issue of 1862, unused",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/CSA-T1-%241000-1861.jpg/500px-CSA-T1-%241000-1861.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Confederate First issue banknote depicting both Calhoun and Andrew Jackson (Act of March 9, 1861)",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Statue_of_Hon._John_C._Calhoun_erected_in_Statuary_Hall_of_the_Capitol_at_Washington._Proceedings_in_Statuary_Hall_and_in_the_Senate_and_the_House_of_Representatives_on_the_occasion_of_the_unveiling%2C_%2814762688871%29.jpg/500px-thumbnail.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "John C. Calhoun statue in National Statuary Hall Collection at the U.S. Capitol",
+      "article": "John C. Calhoun",
+      "article_url": "https://en.wikipedia.org/wiki/John_C._Calhoun"
+    }
+  ]
+}

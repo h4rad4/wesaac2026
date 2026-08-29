@@ -1,0 +1,9 @@
+experimental data;
+least squares;
+model fitting;
+curves fit;
+cross validation;
+errors;
+random sampling;
+data spliting;
+training and testing;

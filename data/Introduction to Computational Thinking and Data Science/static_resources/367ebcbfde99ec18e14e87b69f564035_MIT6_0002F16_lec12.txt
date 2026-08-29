@@ -1,0 +1,7 @@
+clustering;
+data partitions;
+variability;
+dissimilarity;
+hierarchical clustering;
+linkage metrics;
+k-means;

@@ -1,0 +1,6 @@
+optimization problems;
+computational models;
+optimization models;
+knapsap problem;
+brute force algorithm;
+greedy algorithm;

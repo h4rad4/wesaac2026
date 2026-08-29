@@ -1,0 +1,10 @@
+classification;
+supervised learning;
+regression;
+distance matrix;
+k-nearest neighbors;
+model evaluation metrics;
+model evaluation;
+data sampling;
+logistic regression;
+ROC curve;

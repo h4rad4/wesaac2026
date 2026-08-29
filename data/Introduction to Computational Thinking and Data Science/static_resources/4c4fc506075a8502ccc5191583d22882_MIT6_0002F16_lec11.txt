@@ -1,0 +1,10 @@
+machine learning;
+supervised learning;
+unsupervised learning;
+classifying;
+clustering;
+machine learning methods requirements;
+feature representations;
+minkowski metric;
+euclidean distance;
+statistical measures;

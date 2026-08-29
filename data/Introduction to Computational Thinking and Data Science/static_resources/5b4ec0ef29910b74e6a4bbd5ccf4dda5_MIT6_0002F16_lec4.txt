@@ -1,0 +1,10 @@
+stochastic thinking;
+random walks;
+copenhagen doctrine;
+stochastic processes;
+randomness;
+probabilities;
+independent events;
+simulation models;
+brownian motion;
+drunkard's walk;

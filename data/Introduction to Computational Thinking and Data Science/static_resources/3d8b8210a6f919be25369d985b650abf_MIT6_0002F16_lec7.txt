@@ -1,0 +1,4 @@
+confidence intervals;
+normal distribution;
+probability function;
+buffon-laplace method;

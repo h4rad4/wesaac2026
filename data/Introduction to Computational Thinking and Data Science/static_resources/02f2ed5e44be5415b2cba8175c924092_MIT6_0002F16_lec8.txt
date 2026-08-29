@@ -1,0 +1,8 @@
+sampling and standard error;
+inferential statistics;
+probability sampling;
+means;
+standard deviations;
+central limit theorem;
+standard error of the mean;
+distributions;

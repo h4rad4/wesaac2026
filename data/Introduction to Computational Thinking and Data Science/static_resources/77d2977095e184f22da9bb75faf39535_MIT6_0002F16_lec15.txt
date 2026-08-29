@@ -1,0 +1,4 @@
+statistical errors;
+stochastic thinking;
+optimization problems;
+world modeling;

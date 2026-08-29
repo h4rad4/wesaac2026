@@ -1,0 +1,272 @@
+{
+  "first": 11,
+  "last": 15,
+  "discourse": "Alright, so we've motivated the problem — now let's talk about how we'd actually structure a simulation to answer it. Slide 11 gives us the plan. The structure of the simulation is three steps: first, we simulate one walk of k steps. Then we simulate n such walks — because a single walk tells us almost nothing; it's just one random outcome. And finally, we report the average distance from origin across those n walks. That's the whole recipe: one walk, many walks, average the result. The real intellectual work is in deciding how to build the pieces.\n\nSo before writing any code, let's do what we should always do — think about the abstractions we need. Slide 12. We're going to need three of them. First, a **Location** — that's simply a place. Second, a **Field** — a collection of places and drunks. And third, a **Drunk** — somebody who wanders from place to place in a field. Notice how directly these map onto the story we've been telling. And notice something else: the Drunk doesn't need to know anything about the Field, and the Field doesn't need to know how the Drunk decides where to step next. Keeping the abstractions separate is what will let us swap in different kinds of drunks later without rewriting everything.\n\nLet's start with the simplest piece: Location. Slide 13 shows part 1 of the class. It's a subclass of object. The `__init__` method takes an x and a y — the docstring tells us x and y are floats — and simply binds them to `self.x` and `self.y`. Then we have `move`, which takes a deltaX and a deltaY, also floats. And here's the key design decision: `move` does **not** change this location. It *returns* a new Location whose x is `self.x + deltaX` and whose y is `self.y + deltaY`. That's why I've written in red on the slide: this is an **immutable type**. We never mutate a Location in place — every \"move\" produces a brand-new Location. Then we have the obvious accessors, `getX` and `getY`, which just return `self.x` and `self.y`.\n\nSlide 14 continues the class with two more methods. The first is `distFrom`, which takes another Location, `other`, and computes the distance between them. It sets `xDist` to `self.x - other.getX()`, `yDist` to `self.y - other.getY()`, and returns `(xDist**2 + yDist**2)**0.5`. That's nothing mysterious — it's just the Pythagorean theorem, the Euclidean distance you learned in high-school geometry. Then there's `__str__`, so that when we print a Location we get something readable: `'<'`, followed by the string of x, then `', '`, then the string of y, then `'>'`. Nothing deep, but it makes debugging a lot more pleasant.\n\nNow the Drunk class itself — slide 15. Again a subclass of object. The `__init__` takes a name, which defaults to None, assumes name is a string, and stores it as `self.name`. The `__str__` method returns `self.name` if `self != None`, and otherwise returns `'Anonymous'` — so even an unnamed drunk prints as something sensible.\n\nBut look at the box on the slide: this class is **not intended to be useful on its own**. And that's the crucial point, there in red: it's **a base class to be inherited** from. A generic Drunk, as written, doesn't actually know how to walk — we haven't given it any wandering behavior at all. What it captures is what's common to all drunks: they have a name. The interesting behavior — *how* a particular drunk moves — is what we'll add through subclasses that inherit from this base class. And that's exactly where we're headed next.",
+  "wikipedia_data": "## Random walk\nIn mathematics , a random walk is a stochastic process that describes a path that consists of a succession of random steps on some mathematical space . An elementary example of a random walk is one on the integer number line Z {\\displaystyle \\mathbb {Z} } which starts at 0, and at each step moves +1 or −1 with equal probability . Other examples include the path traced by a molecule as it travels in a liquid or a gas (see Brownian motion ), the search path of a foraging animal, or the price of a fluctuating stock and the financial status of a gambler . Random walks have applications to engineering and many scientific fields including ecology , psychology , computer science , physics , chemistry , biology , economics , and sociology . The term random walk was first introduced by Karl Pearson in 1905.  Realizations of random walks can be obtained by Monte Carlo simulation .  In certain text, random walk is sometimes known as a drunkard's walk . A popular random walk model is that of a random walk on a regular lattice, where at each step the location jumps to another site according to some probability distribution. In a simple random walk , the location can only jump to neighboring sites of the lattice, forming a lattice path . In a simple symmetric random walk on a locally finite lattice, the probabilities of the location jumping to each one of its immediate neighbors are the same. The best-studied example is the random walk on the d -dimensional integer lattice (sometimes called the hypercubic lattice) Z d {\\displaystyle \\mathbb {Z} ^{d}} .  If, in addition, the state space is finite, the random walk model is called a simple bordered symmetric random walk , and the transition probabilities depend on the location of the state because on margin and corner states the movement is limited.  An elementary example of a random walk is the random walk on the integer number line, Z {\\displaystyle \\mathbb {Z} } , which starts at 0 and at each step moves +1 or −1 with equal probability. This walk can be illustrated as follows. A marker is placed at zero on the number line, and a fair coin is flipped. If it lands on heads, the marker is moved one unit to the right. If it lands on tails, the marker is moved one unit to the left. After five flips, the marker could now be on -5, -3, -1, 1, 3, 5. With five flips, three heads and two tails, in any order, it will land on 1. There are 10 ways of landing on 1 (by flipping three heads and two tails), 10 ways of landing on −1 (by flipping three tails and two heads), 5 ways of landing on 3 (by flipping four heads and one tail), 5 ways of landing on −3 (by flipping four tails and one head), 1 way of landing on 5 (by flipping five heads), and 1 way of landing on −5 (by flipping five tails). See the figure below for an illustration of the possible outcomes of 5 flips. To define this walk formally, take independent random variables Z 1 , Z 2 , … {\\displaystyle Z_{1},Z_{2},\\dots } , where each variable is either 1 or −1, with a 50% probability for either value, and set S 0 = 0 {\\displaystyle S_{0}=0} and S n = ∑ j = 1 n Z j . {\\textstyle S_{n}=\\sum _{j=1}^{n}Z_{j}.} The series { S n } {\\displaystyle \\{S_{n}\\}} is called the simple random walk on Z {\\displaystyle \\mathbb {Z} } . This series (the sum of the sequence of −1s and 1s) gives the net distance walked, if each part of the walk is of length one. The expectation E ( S n ) {\\displaystyle E(S_{n})} of S n {\\displaystyle S_{n}} is zero. That is, the mean of all coin flips approaches zero as the number of flips increases. This follows by the finite additivity property of expectation: E ( S n ) = ∑ j = 1 n E ( Z j ) = 0. {\\displaystyle E(S_{n})=\\sum _{j=1}^{n}E(Z_{j})=0.} A similar calculation, using the independence of the random variables and the fact that E ( Z n 2 ) = 1 {\\displaystyle E(Z_{n}^{2})=1} , shows that: E ( S n 2 ) = ∑ i = 1 n E ( Z i 2 ) + 2 ∑ 1 ≤ i < j ≤ n E ( Z i Z j ) = n . {\\displaystyle E(S_{n}^{2})=\\sum _{i=1}^{n}E(Z_{i}^{2})+2\\sum _{1\\leq i<j\\leq n}E(Z_{i}Z_{j})=n.} This hints that E ( | S n | ) {\\displaystyle E(|S_{n}|)\\,\\!} , the expected translation distance after n steps, should be of the order of n {\\displaystyle {\\sqrt {n}}} . In fact,  lim n → ∞ E ( | S n | ) n = 2 π . {\\displaystyle \\lim _{n\\to \\infty }{\\frac {E(|S_{n}|)}{\\sqrt {n}}}={\\sqrt {\\frac {2}{\\pi }}}.} To answer the question of how many times will a random walk cross a boundary line if permitted to continue walking forever, a simple random walk on Z {\\displaystyle \\mathbb {Z} } will cross every point an infinite number of times. This result has many names: the level-crossing phenomenon , recurrence or the gambler's ruin . The reason for the last name is as follows: a gambler with a finite amount of money will eventually lose when playing a fair game against a bank with an infinite amount of money. The gambler's money will perform a random walk, and it will reach zero at some point, and the game will be over. If a and b are positive integers, then the expected number of steps until a one-dimensional simple random walk starting at 0 first hits b or − a is ab . The probability that this walk will hit b before − a is a / ( a + b ) {\\displaystyle a/(a+b)} , which can be derived from the fact that simple random walk is a martingale . And these expectations and hitting probabilities can be computed in O ( a + b ) {\\displaystyle O(a+b)} in the general one-dimensional random walk Markov chain. Some of the results mentioned above can be derived from properties of Pascal's triangle . The number of different walks of n steps where each step is +1 or −1 is 2 n . For the simple random walk, each of these walks is equally likely. In order for S n to be equal to a number k it is necessary and sufficient that the number of +1 in the walk exceeds those of −1 by k . It follows +1 must appear ( n + k )/2 times among n steps of a walk, hence the number of walks which satisfy S n = k {\\displaystyle S_{n}=k} equals the number of ways of choosing ( n +\n\n## Pythagorean theorem\nIn mathematics , the Pythagorean theorem or Pythagoras's theorem is a fundamental relation in Euclidean geometry between the three sides of a right triangle . It states that the area of the square whose side is the hypotenuse (the side opposite the right angle ) is equal to the sum of the areas of the squares on the other two sides.  The theorem can be written as an equation relating the lengths of the sides a , b and the hypotenuse c , sometimes called the Pythagorean equation :  a 2 + b 2 = c 2 . {\\displaystyle a^{2}+b^{2}=c^{2}.} The theorem is named for the Greek philosopher Pythagoras , born around 570 BC. The theorem has been proved numerous times by many different methods – possibly the most for any mathematical theorem. The proofs are diverse, including both geometric proofs and algebraic proofs, with some dating back thousands of years. When Euclidean space is represented by a Cartesian coordinate system in analytic geometry , Euclidean distance satisfies the Pythagorean relation: the squared distance between two points equals the sum of squares of the difference in each coordinate between the points. The theorem can be generalized in various ways: to higher-dimensional spaces , to spaces that are not Euclidean , to objects that are not right triangles, and to objects that are not triangles at all but n -dimensional solids. Forms of the Pythagorean theorem have appeared in many ancient cultures, and the date of first discovery is uncertain, as is the date of the first proof. The history of the development of the theorem involves multiple aspects, including calculations regarding specific right triangles, knowledge of Pythagorean triples, understanding the relationship among the sides of a right triangle, and proofs of the theorem within some deductive system . Written c. 1800 BC, the Egyptian Middle Kingdom Berlin Papyrus 6619 includes a problem involving two squares whose areas sum to a third square, whose solution is the Pythagorean triple 6:8:10, but the problem does not mention a triangle.  According to Plutarch , writing many centuries later, the ancient Egyptians did know about the 3:4:5 right triangle, identifying its sides with Osiris , Isis , and Horus respectively.  Historians of Mesopotamian mathematics have concluded that the Pythagorean rule was in widespread use during the Old Babylonian period (20th to 16th centuries BC), over a thousand years before Pythagoras was born.     The Mesopotamian tablet Plimpton 322 , written near Larsa also c. 1800 BC, contains entries that can be interpreted as the sides and diagonals of 15 different Pythagorean triples.  Another tablet from a similar time, YBC 7289 , calculates the diagonal of a square or, equivalently, of an isosceles right triangle.  In India , the Baudhayana Shulba Sutra , the dates of which are given variously as between the 8th and 5th century BC,  contains a list of Pythagorean triples and a statement of the Pythagorean theorem, both in the special case of the isosceles right triangle and in the general case, as does the Apastamba Shulba Sutra ( c. 600 BC ). [ a ] Byzantine Neoplatonic philosopher and mathematician Proclus , writing in the fifth century AD, states two arithmetic rules, \"one of them attributed to Plato , the other to Pythagoras\",  for generating special Pythagorean triples. The rule attributed to Pythagoras ( c. 570 – c. 495 BC ) starts from an odd number and produces a triple with leg and hypotenuse differing by one unit; the rule attributed to Plato (428/427 or 424/423 – 348/347 BC) starts from an even number and produces a triple with leg and hypotenuse differing by two units. According to Thomas L. Heath (1861–1940), no specific attribution of the theorem to Pythagoras exists in the surviving Greek literature from the five centuries after Pythagoras lived.  However, when authors such as Plutarch and Cicero attributed the theorem to Pythagoras, they did so in a way which suggests that the attribution was widely known and undoubted.   Classicist Kurt von Fritz wrote, \"Whether this formula is rightly attributed to Pythagoras personally ... one can safely assume that it belongs to the very oldest period of Pythagorean mathematics .\"  Around 300 BC, in Euclid's Elements , the oldest extant axiomatic proof of the theorem is presented,  along with Euclid's formula for generating all primitive Pythagorean triples . With contents known much earlier, but in surviving texts dating from roughly the 1st century BC, the Chinese text Zhoubi Suanjing (周髀算经), ( The Arithmetical Classic of the Gnomon and the Circular Paths of Heaven ) gives a reasoning for the Pythagorean theorem for the (3, 4, 5) triangle — in China it is called the \" Gougu theorem \" (勾股定理).   During the Han Dynasty (202 BC to 220 AD), Pythagorean triples appear in The Nine Chapters on the Mathematical Art ,  together with a mention of right triangles.  Some believe the theorem arose first in China in the 11th century BC,  where it is alternatively known as the \" Shang Gao theorem \" (商高定理),  named after the Duke of Zhou's astronomer and mathematician, whose reasoning composed most of what was in the Zhoubi Suanjing .  In one rearrangement proof, two squares are used whose sides have a measure of a + b {\\displaystyle a+b} and which contain four right triangles whose sides are a , b and c , with the hypotenuse being c . In the square on the right side, the triangles are placed such that the corners of the square correspond to the corners of the right angle in the triangles, forming a square in the center whose sides are length c . Each outer square has an area of ( a + b ) 2 as well as 2 ab + c 2 , with 2 ab representing the total area of the four triangles. Within the big square on the left side, the four triangles are moved to form two similar rectangles with sides of length a and b . These rectangles in their new position have now delineated two new squares, one having side length a is formed in the bottom-left corner, and another square o\n\n## Inheritance (object-oriented programming)\nIn object-oriented programming , inheritance is the mechanism of basing an object or class upon another object ( prototype-based inheritance ) or class ( class-based inheritance ), retaining similar implementation . It is also defined as deriving new classes ( sub classes ) from existing ones such as super class or base class and then forming them into a hierarchy of classes. In most class-based object-oriented languages like C++ , an object created through inheritance, a \"child object\", acquires all the properties and behaviors of the \"parent object\", with the exception of: constructors , destructors, overloaded operators and friend functions of the base class. Inheritance allows programmers to create classes that are built upon existing classes,  to specify a new implementation while maintaining the same behaviors ( realizing an interface ), to reuse code and to independently extend original software via public classes and interfaces . The relationships of objects or classes through inheritance give rise to a directed acyclic graph . An inherited class is called a subclass of its parent class or super class. The term inheritance is loosely used for both class-based and prototype-based programming, but in narrow use the term is reserved for class-based programming (one class inherits from another), with the corresponding technique in prototype-based programming being instead called delegation (one object delegates to another). Class-modifying inheritance patterns can be pre-defined according to simple network interface parameters such that inter-language compatibility is preserved.   Inheritance should not be confused with subtyping .   In some languages, generally statically-typed class-based OO languages, like C++ , C# , Java, and Scala , inheritance and subtyping agree, whereas in others they differ. In general, subtyping establishes an is-a relationship, whereas inheritance only reuses implementation and establishes a syntactic relationship, not necessarily a semantic relationship (inheritance does not ensure behavioral subtyping). To distinguish these concepts, subtyping is sometimes referred to as interface inheritance (without acknowledging that the specialization of type variables also induces a subtyping relation), whereas inheritance as defined here is known as implementation inheritance or code inheritance .  Still, inheritance is a commonly used mechanism for establishing subtype relationships.  Inheritance is contrasted with object composition , where one object contains another object (or objects of one class contain objects of another class); see composition over inheritance . In contrast to subtyping’s is-a relationship, composition implements a has-a relationship. Mathematically speaking, inheritance in any system of classes induces a strict partial order on the set of classes in that system. In 1966, Tony Hoare presented some remarks on records, and in particular, the idea of record subclasses, record types with common properties but discriminated by a variant tag and having fields private to the variant.  Influenced by this, in 1967 Ole-Johan Dahl and Kristen Nygaard presented a design that allowed specifying objects that belonged to different classes but had common properties. The common properties were collected in a superclass, and each superclass could itself potentially have a superclass. The values of a subclass were thus compound objects, consisting of some number of prefix parts belonging to various superclasses, plus a main part belonging to the subclass. These parts were all concatenated together.  The attributes of a compound object would be accessible by dot notation. This idea was first adopted in the Simula 67 programming language.  The idea then spread to Smalltalk , C++ , Java , Python , and many other languages. There are various types of inheritance, based on paradigm and specific language.  \"Multiple inheritance ... was widely supposed to be very difficult to implement efficiently. For example, in a summary of C++ in his book on Objective C , Brad Cox actually claimed that adding multiple inheritance to C++ was impossible. Thus, multiple inheritance seemed more of a challenge. Since I had considered multiple inheritance as early as 1982 and found a simple and efficient implementation technique in 1984, I couldn't resist the challenge. I suspect this to be the only case in which fashion affected the sequence of events.\"  — Bjarne Stroustrup Subclasses , derived classes , heir classes , or child classes are modular derivative classes that inherit one or more language entities from one or more other classes (called superclass , base classes , or parent classes ). The semantics of class inheritance vary from language to language, but commonly the subclass automatically inherits the instance variables and member functions of its superclasses. In C++, the general form of defining a derived class is:  The colon indicates that the subclass inherits from the superclass. The visibility modifier is optional and, if present, may be either private or public . The default visibility (if there is no modifier present) is private . Visibility specifies whether the features of the base class are privately derived or publicly derived . Note that in some other languages like Java and C#, there is no visibility modifier for inheritance: Some languages also support the inheritance of other constructs. For example, in Eiffel , contracts that define the specification of a class are also inherited by heirs. The superclass establishes a common interface and foundational functionality, which specialized subclasses can inherit, modify, and supplement. The software inherited by a subclass is considered reused in the subclass. A reference to an instance of a class may actually be referring to one of its subclasses. The actual class of the object being referenced is impossible to predict at compile-time . A uniform interface is used to invoke the member functions of objects of a ",
+  "figures": [
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/2/28/Eight-step_random_walks.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Five eight-step random walks from a central point. Some paths appear shorter than eight steps where the route has doubled back on itself. (animated version)",
+      "article": "Random walk",
+      "article_url": "https://en.wikipedia.org/wiki/Random_walk"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flips.svg/1920px-Flips.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "All possible random walk outcomes after 5 flips of a fair coin",
+      "article": "Random walk",
+      "article_url": "https://en.wikipedia.org/wiki/Random_walk"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Random_walk_2500.svg/960px-Random_walk_2500.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Random walk in two dimensions (animated version)",
+      "article": "Random walk",
+      "article_url": "https://en.wikipedia.org/wiki/Random_walk"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Random_walk_25000_not_animated.svg/960px-Random_walk_25000_not_animated.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Random walk in two dimensions with 25 thousand steps (animated version)",
+      "article": "Random walk",
+      "article_url": "https://en.wikipedia.org/wiki/Random_walk"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Random_walk_2000000.png/960px-Random_walk_2000000.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Random walk in two dimensions with two million even smaller steps. This image was generated in such a way that points that are more frequently traversed are darker. In the limit, for very small steps, one obtains Brownian motion.",
+      "article": "Random walk",
+      "article_url": "https://en.wikipedia.org/wiki/Random_walk"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Walk3d_0.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Three random walks in three dimensions",
+      "article": "Random walk",
+      "article_url": "https://en.wikipedia.org/wiki/Random_walk"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Brownian_hierarchical.png/500px-Brownian_hierarchical.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Simulated steps approximating a Wiener process in two dimensions",
+      "article": "Random walk",
+      "article_url": "https://en.wikipedia.org/wiki/Random_walk"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Antony_Gormley_Quantum_Cloud_2000.jpg/500px-Antony_Gormley_Quantum_Cloud_2000.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Antony Gormley's Quantum Cloud sculpture in London was designed by a computer using a random walk algorithm",
+      "article": "Random walk",
+      "article_url": "https://en.wikipedia.org/wiki/Random_walk"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/RandomWalkDiffusionAggregateSnowflake.jpg/500px-RandomWalkDiffusionAggregateSnowflake.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Snowflake pattern made using random walk diffusion limited aggregation",
+      "article": "Random walk",
+      "article_url": "https://en.wikipedia.org/wiki/Random_walk"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Plimpton_322.jpg/500px-Plimpton_322.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "The Plimpton 322 tablet records Pythagorean triples from Babylonian times.",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Chinese_pythagoras.jpg/500px-Chinese_pythagoras.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Geometric proof of the Pythagorean theorem from the Zhoubi Suanjing",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/39/Animated_gif_version_of_SVG_of_rearrangement_proof_of_Pythagorean_theorem.gif?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Rearrangement proof of the Pythagorean theorem.(The area of the white space remains constant throughout the translation rearrangement of the triangles. At all moments in time, the area is always c2. And likewise, at all moments in time, the area is always a2 + b2.)",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Pythagoras_algebraic2.svg/500px-Pythagoras_algebraic2.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Diagram of the two algebraic proofs",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Pythagoras_similar_triangles_simplified.svg/500px-Pythagoras_similar_triangles_simplified.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Proof using similar triangles",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Einstein-trigonometric-proof.svg/500px-Einstein-trigonometric-proof.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Right triangle on the hypotenuse dissected into two similar right triangles on the legs.",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Illustration_to_Euclid%27s_proof_of_the_Pythagorean_theorem.svg/500px-Illustration_to_Euclid%27s_proof_of_the_Pythagorean_theorem.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Proof in Euclid's Elements",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Illustration_to_Euclid%27s_proof_of_the_Pythagorean_theorem2.svg/500px-Illustration_to_Euclid%27s_proof_of_the_Pythagorean_theorem2.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Illustration including the new lines",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Illustration_to_Euclid%27s_proof_of_the_Pythagorean_theorem3.svg/500px-Illustration_to_Euclid%27s_proof_of_the_Pythagorean_theorem3.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Showing the two congruent triangles of half the area of rectangle BDLK and square BAGF",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/6/65/Pythag_anim.gif?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Animation showing proof by rearrangement of four identical right triangles",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Pythagoras-2a.gif/500px-Pythagoras-2a.gif?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Animation showing another proof by rearrangement",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Pythagorean_theorem_rearrangement.svg/500px-Pythagorean_theorem_rearrangement.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Proof using an elaborate rearrangement",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Visual_proof_of_the_Pythagorean_theorem_by_area-preserving_shearing.gif/500px-Visual_proof_of_the_Pythagorean_theorem_by_area-preserving_shearing.gif?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Visual proof of the Pythagorean theorem by area-preserving shearing",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Pythag_differential_proof.svg/500px-Pythag_differential_proof.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Diagram for differential proof",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Euclid_Corollary_5.svg/500px-Euclid_Corollary_5.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "The spiral of Theodorus: A construction for line segments with lengths whose ratios are the square root of a positive integer",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Complex_conjugate_picture.svg/500px-Complex_conjugate_picture.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "The absolute value of a complex number z is the distance r from z to the origin.",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Trig_functions.svg/500px-Trig_functions.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Similar right triangles showing sine and cosine of angle θ",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Cross_product_parallelogram.svg/500px-Cross_product_parallelogram.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "The area of a parallelogram as a cross product; vectors a and b identify a plane and a × b is normal to this plane.",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Pythagoras_applied_to_similar_triangles.svg/500px-Pythagoras_applied_to_similar_triangles.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Generalization for similar triangles,green area A + B = blue area C",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Pythagoras_by_similar_triangles.svg/500px-Pythagoras_by_similar_triangles.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Pythagoras's theorem using similar right triangles",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Pythagoras_by_pentagons.svg/500px-Pythagoras_by_pentagons.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Generalization for regular pentagons",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Law_of_cosines2.svg/500px-Law_of_cosines2.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "The separation s of two points (r1, θ1) and (r2, θ2) in polar coordinates is given by the law of cosines. Interior angle Δθ = θ1 − θ2.",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/T%C3%A2bit_ibn_Qorra_modified.svg/500px-T%C3%A2bit_ibn_Qorra_modified.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Generalization of Pythagoras's theorem by Tâbit ibn Qorra. Lower panel: reflection of triangle CAD (top) to form triangle DAC, similar to triangle ABC (top).",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Pythagoras_for_scalene_triangle.svg/500px-Pythagoras_for_scalene_triangle.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Generalization for arbitrary triangles,green area = blue area",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Pythagoras_construction.svg/500px-Pythagoras_construction.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Construction for proof of parallelogram generalization",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Pythagoras_3d.svg/500px-Pythagoras_3d.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Pythagoras's theorem in three dimensions relates the diagonal AD to the three sides.",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Tetrahedron_vertfig.svg/500px-Tetrahedron_vertfig.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "A tetrahedron with outward facing right-angle corner",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Parallelogram_equality.svg/500px-Parallelogram_equality.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Vectors involved in the parallelogram law",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Triangle_sph%C3%A9rique.svg/500px-Triangle_sph%C3%A9rique.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Spherical triangle",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Hyperbolic_triangle.svg/500px-Hyperbolic_triangle.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Hyperbolic triangle",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Line_elements2.svg/500px-Line_elements2.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Distance between infinitesimally separated points in Cartesian coordinates (top) and polar coordinates (bottom), as given by Pythagoras's theorem",
+      "article": "Pythagorean theorem",
+      "article_url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Single_Inheritance.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Single inheritance",
+      "article": "Inheritance (object-oriented programming)",
+      "article_url": "https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%29"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Multiple_Inheritance.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Multiple inheritance",
+      "article": "Inheritance (object-oriented programming)",
+      "article_url": "https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%29"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Multilevel_Inheritance.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      "caption": "Multilevel inheritance",
+      "article": "Inheritance (object-oriented programming)",
+      "article_url": "https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%29"
+    },
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Method_overriding_in_subclass.svg/500px-Method_overriding_in_subclass.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      "caption": "Illustration of method overriding",
+      "article": "Inheritance (object-oriented programming)",
+      "article_url": "https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%29"
+    }
+  ]
+}

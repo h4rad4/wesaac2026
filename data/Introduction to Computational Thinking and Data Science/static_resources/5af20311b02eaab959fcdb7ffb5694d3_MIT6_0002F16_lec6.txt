@@ -1,0 +1,9 @@
+monte carlo;
+inferential statistics;
+law of large numbers;
+gambler's fallacy;
+data variations;
+standard deviation;
+confidence levels;
+probability distributions;
+normal distribution

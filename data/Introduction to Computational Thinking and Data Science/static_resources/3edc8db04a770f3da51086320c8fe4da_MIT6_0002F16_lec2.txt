@@ -1,0 +1,10 @@
+optimization problems;
+greedy methods;
+brute force algorithm;
+search tree;
+computational complexity;
+decision tree;
+dynamic programming;
+recursion;
+recursive fibonnaci;
+knapsack problem;

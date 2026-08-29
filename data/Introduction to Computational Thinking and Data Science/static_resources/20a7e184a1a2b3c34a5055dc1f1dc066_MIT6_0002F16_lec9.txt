@@ -1,0 +1,8 @@
+experimental science;
+hooke's law;
+fitting to data;
+measuring distance;
+least squares function;
+polynomial models;
+r-square;
+variance;

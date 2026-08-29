@@ -1,0 +1,32 @@
+[project]
+name = "study-texts"
+version = "0.1.0"
+description = "Automatic generation of study texts from lecture slides"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain>=0.3",
+    "langchain-openai>=0.2",
+    "pydantic>=2.7",
+    "pymupdf>=1.24",
+    "httpx>=0.27",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+]
+notebook = [
+    "ipykernel>=6",
+    "jupyterlab>=4",
+    "python-dotenv>=1",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
